@@ -53,3 +53,39 @@
         
         * cargo build --release
             -Gera um código otimizado em Release, ao invés de Debug em Target
+
+|-> Autorizando entrada de dados
+    -> Para isso adicionamos ao topo do código "use std::io;"
+       da biblioteca std
+
+    -> ao usarmos io::stdin().read_line(&mut variable).expect("fail message")
+       estamos chamando a função read_line que se atribui da função de colocar a submissão
+       do usuário em &mut variable
+        * O uso de & identifica uma referência
+            - &variable faz referência a uma variável não mutável
+        
+        * .expect() é chamado se o Result da função for "err", se for "ok", essa parte será ignorada
+          é importante notar que isso lança a mensagem de erro customizada
+
+|-> Armazenamento de variáves
+    EX: let mut guess = String:new();
+
+    -> A funçãod o let é criar a variável e, caso necessário, linkar a algum valor
+
+    -> ATENÇÃO, FUNÇÃO DO MUT
+        * No RUST variáveis são imutáveis por default, entretando
+          ao adicionarmos mut logo após let, definimos que ela é mutável
+    
+    -> String::new()
+        * Essa sintaxe nos retorna uma String vazia
+
+        * ::new() nos indica que é uma função associada a String
+
+|-> Tipos numéricos
+    -> Número de 32 bits: i32
+
+    -> Número de 32 bits sem sinal: u32
+
+    -> Número de 64 bits: i64
+
+    -> Número de 64 bits sem sinal: u64
