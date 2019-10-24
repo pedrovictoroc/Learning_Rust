@@ -1,0 +1,55 @@
+--------------------------------------
+                RUST
+--------------------------------------
+
+
+|-> Criação de funções
+    -> Para criar funções usamos a sintaxe fn nome_função(){}
+
+|-> Mostrando na tela
+    -> Para fazermos um print chamamos a Macro println!()
+
+    -> Para criarmos uma função de mesmo nome com função print
+       precisamos apenas remover o !
+
+|-> Cargo
+    -> É um criador de sistemas e gerenciador de pacotes do Rust
+       similar a criar um arquivo com create-react-app
+       a pasta criada contem uma pasta src, um .gitignore e um Cargo.toml
+    
+    -> Criamos usando "cargo new nome_do_arquivo"
+
+    -> Responsável por fazer a build do código, baixar as bibliotecas necessárias
+       e gerenciar as dependências
+    
+    -> Cargo.toml
+        * Significado
+            - TOML = Tom's Obvious, Minimal Language
+        
+        * Contém um Package, onde ficam as informações básicas
+
+        * Dependencies, abaixo seguirá a lista de dependências
+          do código, os packages de código são referenciados como CRATES
+
+    -> Podemos fazer build e run do projeto usando o Cargo
+
+        * cargo build
+            - Esse comando cria um arquivo Cargo.lock responsável
+              por manter salvo a versão de todas as dependencias utilizadas
+            
+            - Cria uma pasta target, ao executarmos ./target/debug/nome_projeto.exe
+              executamos o programo
+        
+        * cargo run
+            - Ao invés de utilizar o comando de execução podemos também usar este
+            
+            - Cargo nota as alterações de código e automaticamente recompila
+        
+        * cargo check
+            - Compila o código sem gerar executável
+
+            - Suas vantagens consistem em sua velocidade em relação ao cargo build
+              e no fato de que geralmente queremos apenas testar a ausência de erros de compilação
+        
+        * cargo build --release
+            -Gera um código otimizado em Release, ao invés de Debug em Target
