@@ -89,3 +89,67 @@
     -> Número de 64 bits: i64
 
     -> Número de 64 bits sem sinal: u64
+
+|-> Variáveis e mutabilidade
+    -> Existem dois tipos de definição de variável: LET E CONST
+
+        * Let
+            - Por padrão é imutável, tal condição pode ser alterada adicionando MUT após o let
+                > Podemos utilizar de Shadowing e simplesmente sobrescrever a variável
+                    #EXEMPLO: (let teste: u32 = 4000; let teste:u32 = 50;)
+                > Utilizando mut evitamos errar ao esquercermos de usar let antes da variável a ser sobrescrita
+                    #OBSERVAÇÃO: Em contra partida, não podemos alterar o tipo desta variável apenas por ser mutável
+        
+        * Const
+            - Seu comportamento é sempre de imutabilidade, não pode ser alterado
+            - As boas práticas do Rust dizem para utilizar nomes em Caps Lock com underscore
+                > Exemplo: const MAX_VALUE: u32 = 10000;
+                    #OBSERVAÇÃO: podemos também escrever: 10_000, o Rust entenderá como 10000
+
+
+|-> Tipos de dados
+    -> Scalar
+        * Integer
+            - Como definir:
+                
+                LENGHT      Signed      Unsigned
+                
+                8-bit        i8            u8
+                16-bit       i16           u16
+                32-bit       i32           u32
+                64-bit       i64           u64
+                128-bit      i128          u128
+        
+        * Float
+            - Temos dois tipos, f32 e f64, entretando, por padrão, o f64 será usado
+        
+        * Boolean
+            - Podemos definir de duas formas, implicitamente e explcitamente
+                > Implicitamente
+                    #Exemplo: let t = true;
+                
+                > Explicitamente
+                    #Exemplo: let f: bool = false;
+        
+        * Character
+            - Um char em Rust tolera não só letras, mas, também, caracteres especiais, emojis e representações de espaço nulo
+    
+    -> Compound
+        * Tuple
+            - Uma vez declarada, não pode ser alterada
+
+            #Exemplo: let tup: (i32,f64,u8) = (500, 6.4,1);
+            
+            - Podemos fazer acessos diretos a tupla, tup.0, por exemplo, retornaria 500
+        
+        * Array
+            - Todos os elementos de um array devem ter o mesmo tipo
+            - Arrays em Rust tem tamanho fixo
+
+            - Podemos definir de forma implicita ou explicita
+                > Implicitamente
+                    #Exemplo: let a  = [1,2,3,4,5];
+                    #Exemplo: let a = [3;5] a resposta será um array inicializado com 5 posições contendo 3
+                
+                > Explicitamente
+                    #Exemplo: let a: [i32;5] = [1,2,3,4,5];

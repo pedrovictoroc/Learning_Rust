@@ -1,4 +1,5 @@
 fn main() {
-    println!("Hello, world!");
-    println!("Teste de rebuild");
+    let mut teste: i128 =  170141180000000000000000000000000000000;
+
+    println!("{}",teste);
 }

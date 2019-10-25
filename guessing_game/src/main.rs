@@ -21,8 +21,10 @@ fn main() {
 
         //Transforma a String em numero de 32 bits
         //sem sinal, captura erro se não for um número
-        let guess: u32 = guess.trim().parse()
-                    .expect("Please type a number!");
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num)=> num,
+            Err(_) => continue,
+        };
 
 
         //Utiliza das arms do match para comparar, um a um,
@@ -30,7 +32,10 @@ fn main() {
         match guess.cmp(&secret_number){
             Ordering::Less => println!("Too small!"),
             Ordering::Greater => println!("Too big!"),
-            Ordering::Equal => println!("You win!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
         }
     }
 }
