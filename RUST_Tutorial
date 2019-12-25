@@ -153,3 +153,90 @@
                 
                 > Explicitamente
                     #Exemplo: let a: [i32;5] = [1,2,3,4,5];
+
+|-> Ownership
+    -> Em algumas linguagens, existem garbage collectors que buscam por pedaços de memória que não serão mais
+       utilizados, para que sejam deletadas, em outras, o programador deve alocar e liberar a memória de forma
+       consciente. Rust utiliza o conceito de Ownership, um sistema com um conjunto de regras que o compilador
+       verificará durante o tempo de compilação.
+    
+    * OBSERVAÇÃO:
+        === Entendendo a Stack e Heap de memória ===
+
+        -> Stack
+            * Como sabemos, obedece o conceito de last in, first out, na Stack armazenamos dados de tamanho
+              fixo, diferentemente da Heap, não chamamos o processo de inserção de dados na Stack de alocação,
+              pois sabemos o tamanho do ponteiro e, quando precisamos dos dados, apenas seguimos o ponteiro.
+              Inserção de dados na Stack é consideravelmente mais rápida, pois o ponteiro é sempre colocado no
+              topo e, diferentemente da Heap, não é necessário buscar espaço livre.
+
+            - Quando uma função é chamada, os dados passados para ela, bem como as variáveis criadas no escopo
+              são armazenadas no topo da Stack, quando a função é finalizada, esses dados são removidos
+        
+        -> Heap
+            * Utilizada para dados sem tamanho fixo, menos organizada que a Stack. Quando requerimos a adição
+              de dados na Heap o Sistema irá buscar um espaço na Heap grande o suficiente e retornará um
+              ponteiro, que é o endereço daquela espaço de memória, a este processo damos o nome de alocação
+              em Heap, ou, simplesmente, alocação.
+
+            - Manter em mente quais e quando os dados da Heap são utilizados é fundamental para evitar dados
+              duplicados, o que evita, por consequência, a demora na busca do Sistema por espaço de armazenamento
+        
+    -> Regras de Ownership
+        * Cada valor deve ter apenas uma variável, chamada de Owner
+        * Só pode existir um Owner por vez
+        * Quando o Owner sair de escopo, o valor será "dropado"(removido, se preferir)
+    
+    -> Exemplo de uso da Heap
+        * Sabemos que o tipo "string literal" é imutável, naturalmente um problema quando precisamos lidar com
+          textos, entretanto, temos o Data Type String, que, por meio de métodos, altera a string,
+          Ex:
+                let s = String::from("Hello");
+                s.push_str(", world!);
+                println!("{}",s);
+          
+          Como bem observamos, a string foi alterada, se notarmos bem isso implica que o tamanho dela foi
+          modificado, portanto, não pode permanecer na Stack, deve estar na Heap.
+
+          Historicamente temos algumas soluções para os problemas de manuseio de memória. Temos o Garbage Collector(GC),
+          que busca constantemente por memória inutilizada para reciclar, o que garante ao programador uma certa
+          despreocupação quanto ao assunto, entretanto, tem impacto no desempenho do programa. Temos o caso de linguagens
+          em que o programador tem como obrigação armazenar e liberar a memória utilizada, o que recupera a possível perda
+          de desempenho do GC, mas gera problemas quanto a disponibilidade da memória no decorrer do programa.
+          Rust utiliza uma outra abordagem, a memória utilizada é devolvida assim que o seu Owner(variável), sai de escopo,
+
+        * Vamos entender um pouco melhor como funciona a atribuição de variáveis em Rust
+            EX: Para dados de tamanho fixo
+
+                let a = 5;
+                let b = a;
+
+                Sabemos bem o que está acontecendo, o tipo de dado de 5 tem tamanho fixo e pode ser armazenado na Stack,
+                o que está acontecendo é a atribuição do valor 5 em "a", depois a cópia deste valor é feita e atribuida
+                a "b"
+            
+            EX: Para dados de tamanho não-fixo
+
+                let s1 = String::from("teste");
+                let s2 = s1;
+
+                Como vimos anteriormente, este tipo de dado tem tamanho modificável, logo, deve permanecer na heap, neste
+                caso, diferentemente do que acontece no exemplo anterior, quando atribuimos o valor de s1 para s2, não estamos
+                duplicando o conteúdo de s1 e atribuindo a s2, mas, na verdade, copiando o LENGHT, CAPACITY e o PONTEIRO deste
+                dado, logo, evitamos o uso desnecessário de memória na Heap
+            
+            - Bom, analisando o quadro do exemplo dois e lembrando da forma como o Rust trabalha com o descarte de memória
+              chegamos a uma dúvida "Quando o escopo for encerrado, s1 será liberado e s2 também, mas se ambos se referem ao
+              mesmo espaço de memória, isso não causaria um 'Double free'?", bem, na verdade, o que ocorre de fato é que,
+              quando efetuamos "s2=s1" nós estamos fazendo o que é chamado de "Move", estamos movendo, e não clonando, o conteúdo
+              de s1 para s2, logo, se tentarmos acessar s1, receberemos um erro, tal Owner não pode mais ser utilizado, o que
+              corrige o possível erro comentado.
+            
+            - Uma solução para o possível problema de realmente necessitarmos das duas variáveis com o conteúdo que foi movido é
+              o uso do método clone:
+              
+              Ex:
+                    let s1 = String::from("hello");
+                    let s2 = s1.clone();
+                
+                De fato, o que estamos fazendo é duplicar o que está em s1 e colocar s2 como seu Owner.

@@ -1,5 +1,11 @@
 fn main() {
-    let teste: i128 =  17014118000;
+    let s1 = String::from("Hello");
 
-    println!("{}",teste);
+    takes_ownership(s1);
+
+    println!("{}",s1);
+}
+
+fn takes_ownership(some_string: String){
+    println!("{}", some_string);
 }
