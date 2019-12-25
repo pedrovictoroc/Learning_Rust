@@ -1,5 +1,5 @@
 fn main() {
-    let mut teste: i128 =  170141180000000000000000000000000000000;
+    let teste: i128 =  17014118000;
 
     println!("{}",teste);
 }

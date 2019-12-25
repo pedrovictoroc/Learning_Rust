@@ -38,7 +38,7 @@
               por manter salvo a versão de todas as dependencias utilizadas
             
             - Cria uma pasta target, ao executarmos ./target/debug/nome_projeto.exe
-              executamos o programo
+              executamos o programa
         
         * cargo run
             - Ao invés de utilizar o comando de execução podemos também usar este
