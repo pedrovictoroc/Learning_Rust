@@ -240,3 +240,43 @@
                     let s2 = s1.clone();
                 
                 De fato, o que estamos fazendo é duplicar o que está em s1 e colocar s2 como seu Owner.
+    
+    -> Referência e Empréstimo (reference and borrowing)
+        * Em algumas soluções para o problema de perda de Ownership, o retorno de uma função é uma tupla,
+          com o valor calculado pela função e as variáveis passadas, para que o Ownership seja restabelecido
+          ao contexto anterior à chamada, aqui apresentamos uma forma melhor. Utilizaremos a passagem por
+          referência.
+
+          EX:
+                let s1 = String::from("Hello");
+                let len = get_len(&s1);
+
+                fn get_len(s: &String) -> usize{
+                    s.len()
+                }
+          
+          Notemos aqui que o que realmente é passado é a referência para s1, de forma que s apenas se refere
+          a s1, dessa forma, s nunca foi Proprietário do que está em s1, apenas recebeu o conteúdo como Empréstimo
+          e efetuou os cálculos necessários, de forma que não é necessário retornar s, apenas o valor calculado.
+        
+        * Algumas regras sobre o uso de referências mutáveis:
+            - Não podemos ter 2 variáveis recebendo a referência de forma mutável ao mesmo tempo
+            - Varias variáveis imutáveis recebendo referência é permitido, entretando, se adicionarmos
+              uma variável com o conteúdo de forma mutável, ISSO RESULTARÁ EM UM ERRO CASO AS VARIÁVEIS 
+              IMUTÁVEIS SEJAM UTILIZADAS POSTERIORMENTE
+
+              EX: caso em que não há erro:
+
+                    let s1 = String::from("Hello");
+                    let r1 = &s1;
+                    let r2 = &s1;
+                    println!("{}, {}", r1,r2);
+                    let r3 = &mut s1;
+                    println!("{}", r3);
+            
+            - Frequentemente, quando lidamos com referências, cometemos o erro chamado "dangling pointers",
+              quando, por exemplo, criamos uma String no escopo de uma função e retornamos sua referência.
+              Bom, a este ponto sabemos que, no fim do seu escopo, esta variável é apagada e a memória reciclada,
+              portanto, a referência não está sendo condizente com o que se quer fazer, o que faz o compilador
+              retornar um erro. Uma correção para isso seria retornar a String em sí, de fato, a variável será
+              descartada no fim do escopo, entretando, sua Ownership será passada adiante, corrigindo o erro.
